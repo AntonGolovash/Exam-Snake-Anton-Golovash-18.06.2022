@@ -11,30 +11,31 @@ void display()
     glClear(GL_COLOR_BUFFER_BIT);
     Painter p;
     game.draw(p);
-    glutSwapBuffers();
+    //glutSwapBuffers();
 }
 
 void timer(int = 0)
 {
     game.tick();
     display();
-    glutTimerFunc(300, timer, 0);
+    //glutTimerFunc(300, timer, 0);
+ 
 }
 
 void keyEvent(int key, int, int)
 {
     switch (key)
     {
-    case GLUT_KEY_LEFT:
+    case JOY_BUTTON1CHG:
         game.keyEvent(Snake::LEFT);
         break;
-    case GLUT_KEY_UP:
+    case JOY_BUTTON2CHG:
         game.keyEvent(Snake::UP);
         break;
-    case GLUT_KEY_RIGHT:
+    case JOY_BUTTON3CHG:
         game.keyEvent(Snake::RIGHT);
         break;
-    case GLUT_KEY_DOWN:
+    case JOY_BUTTON4CHG:
         game.keyEvent(Snake::DOWN);
         break;
     }
@@ -43,22 +44,19 @@ void keyEvent(int key, int, int)
 int main(int argc, char** argv)
 {
     //glutInit(&argc, argv);
-    glInitNames(argc, argv);
+    glInitNames();
     //glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGB);
-    gluInit
-    glutInitWindowSize(Field::WIDTH * Field::BLOCK_WIDTH,
-        Field::HEIGHT * Field::BLOCK_HEIGHT);
-    glutInitWindowPosition(100, 780);
-    glutCreateWindow("Snake");
+    //glutInitWindowSize(Field::WIDTH * Field::BLOCK_WIDTH, Field::HEIGHT * Field::BLOCK_HEIGHT);
+    //glutInitWindowPosition(100, 780);
+    //glutCreateWindow("Snake");
     glClearColor(0, 0, 0, 1.0);
     glMatrixMode(GL_PROJECTION);
     glLoadIdentity();
-    glOrtho(0, Field::WIDTH * Field::BLOCK_WIDTH,
-        Field::HEIGHT * Field::BLOCK_HEIGHT, 0,
-        -1.0, 1.0);
-    glutDisplayFunc(display);
-    glutSpecialFunc(keyEvent);
+    glOrtho(0, Field::WIDTH * Field::BLOCK_WIDTH, Field::HEIGHT * Field::BLOCK_HEIGHT, 0, -1.0, 1.0);
+    //glutDisplayFunc(display);
+    //glutSpecialFunc(keyEvent);
     timer();
 
-    glutMainLoop();
+    //glutMainLoop();
+    ;
 }
