@@ -1,5 +1,6 @@
 #include "painter.h"
 #include "game.h"
+#include "glut.h"
 #include <windows.h>
 #include <gl/GL.h>
 #include <gl/GLU.h>
@@ -11,31 +12,30 @@ void display()
     glClear(GL_COLOR_BUFFER_BIT);
     Painter p;
     game.draw(p);
-    //glutSwapBuffers();
+    glutSwapBuffers();
 }
 
 void timer(int = 0)
 {
     game.tick();
     display();
-    //glutTimerFunc(300, timer, 0);
- 
+    glutTimerFunc(300, timer, 0);
 }
 
 void keyEvent(int key, int, int)
 {
     switch (key)
     {
-    case JOY_BUTTON1CHG:
+    case GLUT_KEY_LEFT:
         game.keyEvent(Snake::LEFT);
         break;
-    case JOY_BUTTON2CHG:
+    case GLUT_KEY_UP:
         game.keyEvent(Snake::UP);
         break;
-    case JOY_BUTTON3CHG:
+    case GLUT_KEY_RIGHT:
         game.keyEvent(Snake::RIGHT);
         break;
-    case JOY_BUTTON4CHG:
+    case GLUT_KEY_DOWN:
         game.keyEvent(Snake::DOWN);
         break;
     }
@@ -43,20 +43,21 @@ void keyEvent(int key, int, int)
 
 int main(int argc, char** argv)
 {
-    //glutInit(&argc, argv);
-    glInitNames();
-    //glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGB);
-    //glutInitWindowSize(Field::WIDTH * Field::BLOCK_WIDTH, Field::HEIGHT * Field::BLOCK_HEIGHT);
-    //glutInitWindowPosition(100, 780);
-    //glutCreateWindow("Snake");
+    glutInit(&argc, argv);
+    glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGB);
+    glutInitWindowSize(Field::WIDTH * Field::BLOCK_WIDTH,
+        Field::HEIGHT * Field::BLOCK_HEIGHT);
+    glutInitWindowPosition(100, 780);
+    glutCreateWindow("Snake");
     glClearColor(0, 0, 0, 1.0);
     glMatrixMode(GL_PROJECTION);
     glLoadIdentity();
-    glOrtho(0, Field::WIDTH * Field::BLOCK_WIDTH, Field::HEIGHT * Field::BLOCK_HEIGHT, 0, -1.0, 1.0);
-    //glutDisplayFunc(display);
-    //glutSpecialFunc(keyEvent);
+    glOrtho(0, Field::WIDTH * Field::BLOCK_WIDTH,
+        Field::HEIGHT * Field::BLOCK_HEIGHT, 0,
+        -1.0, 1.0);
+    glutDisplayFunc(display);
+    glutSpecialFunc(keyEvent);
     timer();
 
-    //glutMainLoop();
-    ;
+    glutMainLoop();
 }
